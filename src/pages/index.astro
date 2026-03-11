@@ -1,6 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Songs from '../components/Songs.astro';
+import Layout from "../layouts/Layout.astro";
+import Songs from "../components/Songs.astro";
+import axios from "axios"
+
+
+const LIST_SERVER = await axios.get("https://api.institutoalfa.org/api/songs")
+
 ---
 
 <Layout>
@@ -17,6 +22,15 @@ import Songs from '../components/Songs.astro';
         <Songs/>
         <Songs/>
         <Songs/>
+    <div>
+        {
+            LIST_SERVER.data.songs.map(function (valor : any) {
+                return <Songs titulo={valor.title} artista={valor.author.name} imagen={valor.album.image.url}/>;
+            })
+        }
     </div>
 </Layout>
 
+<style></style>
+
+<script></script>
