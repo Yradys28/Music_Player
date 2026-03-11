@@ -1,0 +1,38 @@
+---
+import axios from 'axios';
+import Songs from '../components/Songs.astro';
+export async function getStaticPaths() {
+    const res = await axios("https://api.institutoalfa.org/api/songs")
+    const RES = res.data.songs
+
+    return RES.map(function(song:any){
+        return {
+            params:{
+                _id: song._id
+            },
+            props:{
+                title: song.title,
+                img: song.album.image.url,
+                audio: song.audio.url
+            }
+           
+
+        }
+    })
+    }
+
+interface Props {
+    title:string
+    img:string
+    audio:string
+}
+const TITULO = Astro.props.title
+const IMAGE = Astro.props.img
+const AUDIO = Astro.props.audio
+---
+
+<div>
+    <img src={IMAGE} alt="">
+    Esta vista es para la cancion {TITULO}
+    <audio controls src={AUDIO} class="bg-amber-400"></audio>
+</div>
