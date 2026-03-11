@@ -4,16 +4,19 @@ import Songs from '../components/Songs.astro';
 ---
 
 <Layout>
-    <div class="flex gap-6">
-        <Songs />
-        <Songs />
-        <Songs />
+    <div class="w-full flex justify-center pt-6 bg-[#171021]">
+        <div class="w-[90%] bg-[#7f13ec] text-white py-2 px-8 rounded-4xl flex items-center gap-2">
+            <img src="/images/play.png" alt="">
+            <p>Play Now</p>
+        </div>
+    </div>
+    <div class="pt-6 bg-[#171021] w-full flex flex-wrap justify-center items-center gap-6">
+        <Songs/>
+        <Songs/>
+        <Songs/>
+        <Songs/>
+        <Songs/>
+        <Songs/>
     </div>
 </Layout>
 
-<style>
-    
-</style>
-
-<script>
-</script>
