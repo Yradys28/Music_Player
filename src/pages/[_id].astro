@@ -15,8 +15,6 @@ export async function getStaticPaths() {
                 img: song.album.image.url,
                 audio: song.audio.url
             }
-           
-
         }
     })
     }
@@ -31,8 +29,10 @@ const IMAGE = Astro.props.img
 const AUDIO = Astro.props.audio
 ---
 
-<div>
-    <img src={IMAGE} alt="">
-    Esta vista es para la cancion {TITULO}
+<div class="">
+    <div class="">
+        <img src={IMAGE} alt="" class="">
+    </div>
+    <p>{TITULO}</p>
     <audio controls src={AUDIO} class="bg-amber-400"></audio>
 </div>
