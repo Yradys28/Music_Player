@@ -5,13 +5,13 @@ const IMAGEN = Astro.props.imagen
 const _ID = Astro.props._id
 ---
 <a href={'/' + _ID} class="w-[85%]">
-    <div class=" bg-[#231e26] rounded-4xl p-5 w-full h-30 sm:w-fit flex items-center justify-between gap-8">
-        <img src={IMAGEN} alt="" class="w-[30%] h-full rounded-2xl">
-        <div class="w-[40%] flex flex-col gap-2">
-            <h3 class="text-white font-bold text-lg">{TITULO}</h3>
-            <p class="text-[#8da0b2]">{ARTISTA}</p>
+    <div class=" bg-[#231e26] rounded-4xl py-2 px-4 w-full h-24 sm:w-fit flex items-center justify-between gap-6">
+        <img src={IMAGEN} alt="" class="w-[30%] h-[85%] rounded-2xl">
+        <div class="w-[50%] flex flex-col gap-2">
+            <h3 class="text-white font-bold text-[13px]">{TITULO}</h3>
+            <p class="text-[#8da0b2] text-[12px]">{ARTISTA}</p>
         </div>
-        <div class="w-[30%] flex justify-center">
+        <div class="w-[20%] flex justify-center">
             <img src="/images/play.png" alt="" class="w-8.75 h-7.5">
         </div>
     </div>

@@ -2,21 +2,23 @@
 import Layout from "../layouts/Layout.astro";
 import Songs from "../components/Songs.astro";
 import axios from "axios"
-
-
 const LIST_SERVER = await axios.get("https://api.institutoalfa.org/api/songs")
-
+const songsData = LIST_SERVER.data.songs;
 ---
 
 <Layout>
     <div class="w-full flex justify-center pt-6 bg-[#171021]">
-        <div class=" w-[85%] bg-[#7f13ec] text-white py-2 px-8 rounded-4xl flex items-center gap-2">
-            <img src="/images/play.png" alt="">
-            <p>Play Now</p>
+        <div class=" w-[85%] bg-[#7f13ec] text-white py-2 px-8 rounded-4xl flex items-center gap-2 justify-between" id="btn-play">
+            <img src="/images/play.png" alt="" id="btn-icon" class="w-8">
+            <p id="btn-text">Play Now</p>
+            <div class="flex">
+                <img src="/images/back.png" alt="" id="btn-back">
+                <img src="/images/next.png" alt="" id="btn-next">
+            </div>
         </div>
     </div>
     <div class="pt-6 bg-[#171021] w-full flex flex-wrap justify-center items-center gap-6">
-    <div class="flex flex-wrap justify-center gap-8">
+    <div class="flex flex-wrap justify-center gap-4">
         {
             LIST_SERVER.data.songs.map(function (valor : any) {
                 return <Songs titulo={valor.title} artista={valor.author.name} imagen={valor.album.image.url} _id={valor._id}/>;
@@ -25,6 +27,73 @@ const LIST_SERVER = await axios.get("https://api.institutoalfa.org/api/songs")
     </div>
 </Layout>
 
-<style></style>
+<script define:vars={{ songsData }}>
+    const BACK_BTN = document.getElementById('btn-back')
+    const NEXT_BTN = document.getElementById('btn-next')
+    const PLAY_BTN = document.getElementById('btn-play')
+    const audio = new Audio();
+    let currentIndex = 0;
+    let isFirstPlay = true;
 
-<script></script>
+  function playSong(index) {
+        currentIndex = index;
+        const currentSong = songsData[currentIndex];
+        audio.src = currentSong.audio.url; 
+        audio.play(); 
+        console.log(`Reproduciendo: ${currentSong.title} de ${currentSong.author.name}`);
+        }
+        
+        BACK_BTN.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex = currentIndex - 1;
+            } else {
+                currentIndex = songsData.length - 1;
+            }
+            playSong(currentIndex);
+            isFirstPlay = false;
+            const TEXT = document.getElementById('btn-text');
+            const ICON = document.getElementById('btn-icon');
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+            });     
+
+        NEXT_BTN.addEventListener('click', () => {
+            if (currentIndex + 1 < songsData.length) {
+                currentIndex = currentIndex + 1;
+            } else {
+                currentIndex = 0; 
+            }           
+            playSong(currentIndex);          
+            isFirstPlay = false;
+            const TEXT = document.getElementById('btn-text');
+            const ICON = document.getElementById('btn-icon');
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+                    })
+
+        PLAY_BTN.addEventListener('click', () => {
+        const ICON = document.getElementById('btn-icon')
+        const TEXT = document.getElementById('btn-text')
+
+        if (TEXT.textContent === "Play Now") {
+           if (isFirstPlay) {
+                playSong(0); 
+                isFirstPlay = false;
+            } else {
+              audio.play(); 
+            }
+
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+            } else {
+                audio.pause();
+                TEXT.textContent = "Play Now";
+                ICON.src = "/images/play.png";
+            }    
+        });
+
+        audio.addEventListener('ended', () => {
+        console.log("Canción terminada, pasando a la siguiente...");
+        playSong(currentIndex + 1);
+        });       
+</script>
