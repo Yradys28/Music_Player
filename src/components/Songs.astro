@@ -4,8 +4,8 @@ const ARTISTA = Astro.props.artista
 const IMAGEN = Astro.props.imagen
 const _ID = Astro.props._id
 ---
-<a href={'/' + _ID} class="w-[85%]">
-    <div class=" bg-[#231e26] rounded-4xl py-2 px-4 w-full h-24 sm:w-fit flex items-center justify-between gap-6">
+<a href={'/' + _ID} class="w-[85%] song">
+    <div class=" bg-[#231e26] rounded-4xl py-2 px-4 w-full h-24 sm:w-fit flex items-center justify-between gap-6 song">
         <img src={IMAGEN} alt="" class="w-[30%] h-[85%] rounded-2xl">
         <div class="w-[50%] flex flex-col gap-2">
             <h3 class="text-white font-bold text-[13px]">{TITULO}</h3>
@@ -16,3 +16,16 @@ const _ID = Astro.props._id
         </div>
     </div>
 </a>
+
+<style>
+    .song{
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.2s ease;
+    }
+
+    .song:hover{
+        ransform: scale(0.98); 
+        transition: transform 0.1s ease; 
+    }
+
+</style>

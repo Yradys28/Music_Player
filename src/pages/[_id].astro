@@ -1,38 +1,136 @@
 ---
-import axios from 'axios';
-import Songs from '../components/Songs.astro';
+import Layout from "../layouts/Layout.astro";
+import axios from "axios";
+import Songs from "../components/Songs.astro";
 export async function getStaticPaths() {
-    const res = await axios("https://api.institutoalfa.org/api/songs")
-    const RES = res.data.songs
+    const res = await axios("https://api.institutoalfa.org/api/songs");
+    const RES = res.data.songs;
 
-    return RES.map(function(song:any){
+    return RES.map(function (song: any) {
         return {
-            params:{
-                _id: song._id
+            params: {
+                _id: song._id,
             },
-            props:{
+            props: {
                 title: song.title,
                 img: song.album.image.url,
-                audio: song.audio.url
-            }
-        }
-    })
-    }
+                audio: song.audio.url,
+                
+            },
+        };
+    });
+}
+const LIST_SERVER = await axios.get("https://api.institutoalfa.org/api/songs")
+const songsData = LIST_SERVER.data.songs;
 
 interface Props {
-    title:string
-    img:string
-    audio:string
+    title: string;
+    img: string;
+    audio: string;
 }
-const TITULO = Astro.props.title
-const IMAGE = Astro.props.img
-const AUDIO = Astro.props.audio
+const TITULO = Astro.props.title;
+const IMAGE = Astro.props.img;
+const AUDIO = Astro.props.audio;
 ---
 
-<div class="">
-    <div class="">
-        <img src={IMAGE} alt="" class="">
+<Layout>
+    <div class="relative w-full bg-[#171021] h-[100vh] flex flex-col items-center gap-4">
+        <a href="/">
+            <img src="/images/icons8-back-50.png" alt="" class="w-7 absolute top-4 left-2">
+        </a>
+        <div class="mt-[40px] w-full flex flex-col justify-center items-center gap-4">
+            <img src={IMAGE} alt="" class="w-[70%] rounded-[50px]" />
+            <p class="text-white text-[25px] tittle">{TITULO}</p>
+        </div>
+        <div class=" w-[85%] bg-[#7f13ec] text-white py-2 px-8 rounded-4xl flex items-center gap-2 justify-between" id="btn-play">
+            <img src="/images/play.png" alt="" id="btn-icon" class="w-8">
+            <p id="btn-text">Play Now</p>
+            <div class="flex">
+                <img src="/images/back.png" alt="" id="btn-back">
+                <img src="/images/next.png" alt="" id="btn-next">
+            </div>
     </div>
-    <p>{TITULO}</p>
-    <audio controls src={AUDIO} class="bg-amber-400"></audio>
-</div>
+</Layout>
+
+<style>
+    .tittle{
+         font-family: "Roboto Condensed", sans-serif;
+    }
+</style>
+
+<script define:vars={{ songsData, AUDIO, TITULO, IMAGE }}>
+
+localStorage.setItem('image', IMAGE)
+localStorage.setItem('audio', AUDIO)
+localStorage.setItem('titulo', TITULO)
+
+
+const BACK_BTN = document.getElementById('btn-back')
+    const NEXT_BTN = document.getElementById('btn-next')
+    const PLAY_BTN = document.getElementById('btn-play')
+    const audio = new Audio();
+    let currentIndex = 0;
+    let isFirstPlay = true;
+
+  function playSong(index) {
+        currentIndex = index;
+        const currentSong = songsData[currentIndex];
+        audio.src = currentSong.audio.url; 
+        audio.play(); 
+        console.log(`Reproduciendo: ${currentSong.title} de ${currentSong.author.name}`);
+        }
+        
+        BACK_BTN.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex = currentIndex - 1;
+            } else {
+                currentIndex = songsData.length - 1;
+            }
+            playSong(currentIndex);
+            isFirstPlay = false;
+            const TEXT = document.getElementById('btn-text');
+            const ICON = document.getElementById('btn-icon');
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+            });     
+
+        NEXT_BTN.addEventListener('click', () => {
+            if (currentIndex + 1 < songsData.length) {
+                currentIndex = currentIndex + 1;
+            } else {
+                currentIndex = 0; 
+            }           
+            playSong(currentIndex);          
+            isFirstPlay = false;
+            const TEXT = document.getElementById('btn-text');
+            const ICON = document.getElementById('btn-icon');
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+                    })
+
+        PLAY_BTN.addEventListener('click', () => {
+        const ICON = document.getElementById('btn-icon')
+        const TEXT = document.getElementById('btn-text')
+
+        if (TEXT.textContent === "Play Now") {
+           if (isFirstPlay) {
+                playSong(0); 
+                isFirstPlay = false;
+            } else {
+              audio.play(); 
+            }
+
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+            } else {
+                audio.pause();
+                TEXT.textContent = "Play Now";
+                ICON.src = "/images/play.png";
+            }    
+        });
+
+        audio.addEventListener('ended', () => {
+        console.log("Canción terminada, pasando a la siguiente...");
+        playSong(currentIndex + 1);
+        });   
+</script>

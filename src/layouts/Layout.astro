@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import Navegation from '../components/nav.astro'
+import Playbar from '../components/playbar.astro'
 ---
 
 <!doctype html>
@@ -13,12 +14,20 @@ import Navegation from '../components/nav.astro'
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		
 		<meta name="generator" content={Astro.generator} />
 		<title>MusicPlayer</title>
 	</head>
 	<body class="">
 		<Navegation/>
 		<slot />
+		<Playbar/>
 	</body>
 </html>
 

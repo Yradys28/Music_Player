@@ -1,0 +1,71 @@
+---
+import axios from "axios"
+const ARTISTA = Astro.props.artista
+const IMAGEN = Astro.props.imagen
+const LIST_SERVER = await axios.get("https://api.institutoalfa.org/api/songs")
+const songsData = LIST_SERVER.data.songs;
+---
+
+<div class="w-full h-[10vh] fixed bottom-0 bg-[#0f0914] flex items-center justify-between">
+        <!-- <img src={IMAGEN} alt="" class="w-[30%] h-[85%] rounded-2xl" id="image">
+        <div class="w-[50%] flex flex-col gap-2">
+            <h3 class="text-white font-bold text-[13px]" id="titulo"></h3>
+            <p class="text-[#8da0b2] text-[12px]">{ARTISTA}</p>
+        </div>
+        <div class="w-[20%] flex justify-center">
+            <img src="/images/play.png" alt="" class="w-8.75 h-7.5" id="btn-play">
+        </div>  -->
+</div>
+
+<script define:vars={{ songsData }}>
+ /*   const titulo = localStorage.getItem('titulo')
+    const tituloElement = document.getElementById('titulo')
+    if (tituloElement && titulo !== null) {
+        tituloElement.innerHTML = titulo
+    }
+
+    const image= localStorage.getItem('image')
+    const imageElement = document.getElementById('image')
+    if (imageElement && image !== null) {
+        imageElement.innerHTML = image
+    }
+
+    const BACK_BTN = document.getElementById('btn-back')
+    const NEXT_BTN = document.getElementById('btn-next')
+    const PLAY_BTN = document.getElementById('btn-play')
+    const audio = new Audio();
+    let currentIndex = 0;
+    let isFirstPlay = true;
+
+  function playSong(index) {
+        currentIndex = index;
+        const currentSong = songsData[currentIndex];
+        audio.src = currentSong.audio.url; 
+        audio.play(); 
+        console.log(`Reproduciendo: ${currentSong.title} de ${currentSong.author.name}`);
+        }
+
+        PLAY_BTN.addEventListener('click', () => {
+        const ICON = document.getElementById('btn-icon')
+        const TEXT = document.getElementById('btn-text')
+
+        if (TEXT.textContent === "Play Now") {
+           if (isFirstPlay) {
+                playSong(0); 
+                isFirstPlay = false;
+            } else {
+              audio.play(); 
+            }
+
+            TEXT.textContent = "Listening Playlist...";
+            ICON.src = "/images/pause.png";
+            } else {
+                audio.pause();
+                TEXT.textContent = "Play Now";
+                ICON.src = "/images/play.png";
+            }    
+        });
+
+    
+*/
+</script>

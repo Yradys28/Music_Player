@@ -18,13 +18,13 @@ const songsData = LIST_SERVER.data.songs;
         </div>
     </div>
     <div class="pt-6 bg-[#171021] w-full flex flex-wrap justify-center items-center gap-6">
-    <div class="flex flex-wrap justify-center gap-4">
-        {
-            LIST_SERVER.data.songs.map(function (valor : any) {
-                return <Songs titulo={valor.title} artista={valor.author.name} imagen={valor.album.image.url} _id={valor._id}/>;
-            })
-        }
-    </div>
+        <div class="flex flex-wrap justify-center gap-4">
+            {
+                LIST_SERVER.data.songs.map(function (valor : any) {
+                    return <Songs titulo={valor.title} artista={valor.author.name} imagen={valor.album.image.url} _id={valor._id}/>;
+                })
+            }
+        </div>
 </Layout>
 
 <script define:vars={{ songsData }}>
